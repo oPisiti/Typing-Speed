@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from collections.abc import Iterable
 from enum import Enum
 from getch import getch
@@ -32,7 +34,7 @@ class Results(Enum):
 
 
 class TypingSpeed():
-    """ Class variables """
+    """ Class constants """
 
     WORDS_FILE_NAME = "words.txt"
     WORDS_COUNT     = 10
@@ -66,14 +68,19 @@ class TypingSpeed():
         new_char = getch()   
 
         # Requires a space press at the end of each word in order to go to the next
-        if self.require_space_press and new_char != " ": 
-            return 
+        if self.require_space_press and new_char != " ": return 
 
         # Space bar is the key for a new word
         if new_char == " ":
+            # Setting the word to wrong if it is skipped
+            if self.words[self.word_index]["status"] != Results.CORRECT:
+                self.words[self.word_index]["status"] = Results.WRONG
+
+            # Generic changes
             self.word_index   += 1
             self.letter_index  = 0
             self.require_space_press = False
+            
             return
 
         # Correct char
