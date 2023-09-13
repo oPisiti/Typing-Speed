@@ -113,20 +113,18 @@ class TypingSpeed():
         print(f"Score:  {self.score}") 
 
         word = self.words[self.word_index]['word']
-        print(f'Letter: {word[self.letter_index]}')
-        print(f"Word:   {word}")
         
         # Words already attempted
         for i in range(self.word_index): 
             print(self.words[i]["status"].value + self.words[i]["word"] + Colors.ENDC, end=" ")
         
         # Currently attempting word
-        current_status = Results.CORRECT
+        letter_status = Results.CORRECT
         for i, letter in enumerate(self.words[self.word_index]["word"]):
-            if current_status == Results.IN_PROGRESS: current_status = Results.NOT_ATTEMPTED
-            if i == self.letter_index: current_status = Results.IN_PROGRESS
+            if letter_status == Results.IN_PROGRESS: letter_status = Results.NOT_ATTEMPTED
+            if i == self.letter_index: letter_status = Results.IN_PROGRESS
             
-            print(current_status.value + letter + Colors.ENDC, end="")
+            print(letter_status.value + letter + Colors.ENDC, end="")
 
         print(end=" ")
 
@@ -145,8 +143,15 @@ class TypingSpeed():
 
         os.system(TypingSpeed.CLEAR_COMMAND)
 
-        print(f'Final Score: {self.score}/{len(self.words)}')
-        print(f'Wpm: {60 * self.score / dt:.2f}')
+        print(f'Correct words: {self.score}/{len(self.words)}')
+        print(f'WPM: {60 * self.score / dt:.2f}')
+        
+        # Getting the count of correct chars
+        correct_chars = 0
+        for word in self.words:
+            if word["status"] == Results.CORRECT:
+                correct_chars += len(word["word"])
+        print(f'CPM: {60 * correct_chars / dt:.2f}')
 
 
     def run(self) -> None:
