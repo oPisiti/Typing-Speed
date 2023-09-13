@@ -58,8 +58,12 @@ class TypingSpeed():
                      )
         self.letter_count = sum([len(w["word"]) for w in self.words])
 
-        self.score = 0
         self.require_space_press = False
+        
+        # Score specific
+        self.score           = 0
+        self.key_presses     = 0
+        self.correct_presses = 0
 
 
     def get_and_handle_letter(self) -> None:
@@ -83,10 +87,15 @@ class TypingSpeed():
             
             return
 
+        # A keypress that is not blank space
+        self.key_presses += 1
+
         # Correct char
         if new_char == self.words[self.word_index]["word"][self.letter_index]:
             self.words[self.word_index]["status"] = Results.IN_PROGRESS        
             self.letter_index += 1
+
+            self.correct_presses += 1
 
             # Correct word
             if self.letter_index >= len(self.words[self.word_index]["word"]):
@@ -127,7 +136,14 @@ class TypingSpeed():
 
         os.system(TypingSpeed.CLEAR_COMMAND)
 
-        print(f"Score:  {self.score}\n") 
+        # Information
+        print(f"Score:    {Colors.BOLD}{self.score}{Colors.ENDC}") 
+        if self.key_presses >0:
+            print(f"Accuracy: {Colors.BOLD}{100 * self.correct_presses / self.key_presses :.2f}%{Colors.ENDC}")
+        else:
+            print(f"Accuracy: {Colors.BOLD}0%{Colors.BOLD}")
+        print()
+
 
         word = self.words[self.word_index]['word']
         
@@ -160,15 +176,17 @@ class TypingSpeed():
 
         os.system(TypingSpeed.CLEAR_COMMAND)
 
-        print(f'Correct words: {self.score}/{len(self.words)}')
-        print(f'WPM: {60 * self.score / dt:.2f}')
+        print(f'Correct words:    {Colors.BOLD}{self.score}/{len(self.words)}{Colors.ENDC}')
+        print(f'Words per minute: {Colors.BOLD}{60 * self.score / dt:.2f}{Colors.ENDC}')
         
         # Getting the count of correct chars
         correct_chars = 0
         for word in self.words:
             if word["status"] == Results.CORRECT:
                 correct_chars += len(word["word"])
-        print(f'CPM: {60 * correct_chars / dt:.2f}')
+        print(f'Chars per minute: {Colors.BOLD}{60 * correct_chars / dt:.2f}{Colors.ENDC}')
+
+        print(f'Accuracy:         {Colors.BOLD}{100 * self.correct_presses / self.key_presses :.2f}%{Colors.ENDC}')
 
 
     def run(self) -> None:
