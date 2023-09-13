@@ -44,11 +44,11 @@ class TypingSpeed():
 
         # Parsing the words
         try:
-            self.words_list = self.get_words(TypingSpeed.WORDS_FILE_NAME)
+            self.words_list = self.read_words_from_file(TypingSpeed.WORDS_FILE_NAME)
         except FileNotFoundError as e:
             sys.exit(f"File '{WORDS_FILE_NAME}' not found") 
     
-        # Defining words
+        # Choosing the words
         self.words = tuple(
                       {"word": random.choice(self.words_list), 
                        "status": Results.NOT_ATTEMPTED}
@@ -57,12 +57,24 @@ class TypingSpeed():
         self.letter_count = sum([len(w["word"]) for w in self.words])
 
         self.score = 0
+        self.require_space_press = False
 
 
-    def get_input_letter(self) -> None:
+    def get_and_handle_letter(self) -> None:
         """ Gets one letter at a time """
 
         new_char = getch()   
+
+        # Requires a space press at the end of each word in order to go to the next
+        if self.require_space_press and new_char != " ": 
+            return 
+
+        # Space bar is the key for a new word
+        if new_char == " ":
+            self.word_index   += 1
+            self.letter_index  = 0
+            self.require_space_press = False
+            return
 
         # Correct char
         if new_char == self.words[self.word_index]["word"][self.letter_index]:
@@ -71,26 +83,24 @@ class TypingSpeed():
 
             # Correct word
             if self.letter_index >= len(self.words[self.word_index]["word"]):
-
                 self.words[self.word_index]["status"] = Results.CORRECT
-                self.word_index += 1
-                self.letter_index = 0
-                self.score += 1
+     
+                self.score += 1                
+                self.require_space_press = True
+
+                # Changing word index to indicate the end of words.
+                # A loop would exit here, without the need for a space bar press
+                if self.word_index == len(self.words) - 1: 
+                    self.word_index += 1
 
         # Wrong char
         else:
             self.words[self.word_index]["status"] = Results.WRONG
-            self.word_index += 1
-            self.letter_index = 0
-
-        # Updating the next word's color to in_progress
-        if self.word_index < len(self.words):
-            self.words[self.word_index]["status"] = Results.IN_PROGRESS
-            print(f'Word: {self.words[self.word_index]}')
+            self.letter_index  = 0
 
 
     @staticmethod
-    def get_words(file_name: str) -> tuple:
+    def read_words_from_file(file_name: str) -> tuple:
         """ 
         Returns a tuple containing all the words in a file.
         File must be inside the same directory as this file's.
@@ -110,7 +120,7 @@ class TypingSpeed():
 
         os.system(TypingSpeed.CLEAR_COMMAND)
 
-        print(f"Score:  {self.score}") 
+        print(f"Score:  {self.score}\n") 
 
         word = self.words[self.word_index]['word']
         
@@ -168,7 +178,7 @@ class TypingSpeed():
         
         while self.word_index < len(self.words):
             self.render_frame()
-            self.get_input_letter()
+            self.get_and_handle_letter()
 
         t1 = time()
         self.render_gameover(t1 - t0)
