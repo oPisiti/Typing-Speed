@@ -40,7 +40,7 @@ class TypingSpeed():
     WORDS_COUNT     = 10
     CLEAR_COMMAND   = "cls" if os.name == "nt" else "clear"
 
-    def __init__(self, file_name: str = "words.txt"):
+    def __init__(self, file_name: str = "eng.txt"):
 
         if file_name != TypingSpeed.WORDS_FILE_NAME: TypingSpeed.WORDS_FILE_NAME = file_name
 
@@ -186,7 +186,10 @@ class TypingSpeed():
                 correct_chars += len(word["word"])
         print(f'Chars per minute: {Colors.BOLD}{60 * correct_chars / dt:.2f}{Colors.ENDC}')
 
-        print(f'Accuracy:         {Colors.BOLD}{100 * self.correct_presses / self.key_presses :.2f}%{Colors.ENDC}')
+        if self.key_presses > 0:
+            print(f'Accuracy:         {Colors.BOLD}{100 * self.correct_presses / self.key_presses :.2f}%{Colors.ENDC}')
+        else:
+            print(f'Accuracy:         {Colors.BOLD}{100 * self.correct_presses / self.key_presses :.2f}%{Colors.ENDC}')
 
 
     def run(self) -> None:
