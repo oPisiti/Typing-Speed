@@ -36,7 +36,7 @@ class Results(Enum):
 class TypingSpeed():
     """ Class constants """
 
-    WORDS_FILE_NAME = "words.txt"
+    WORDS_FILE_NAME = "eng.txt"
     WORDS_COUNT     = 10
     CLEAR_COMMAND   = "cls" if os.name == "nt" else "clear"
 
@@ -215,5 +215,5 @@ class TypingSpeed():
 
 
 if __name__ == '__main__':
-    game = TypingSpeed()
+    game = TypingSpeed("eng.txt")
     game.run()
