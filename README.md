@@ -15,7 +15,7 @@ python3 typing_speed
 ## Available words
 Everytime the script is executed, it reads all the words, one per line, contained in "words.txt".
 
-Then, it chooses, at random, 10 of these, which will be the prompts for the game.
+Then, it chooses (at random) 10 of these, which will be the prompts for the game.
 
 This file contains the 1000 most frequent words of the english language.
 
@@ -23,7 +23,7 @@ Feel free to modify and add your own!
 
 This file name can be changed inside the main function.
 
-## GUI
+## UI
 
 
 ## Game loop
