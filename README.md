@@ -24,6 +24,17 @@ Feel free to modify and add your own!
 This file name can be changed inside the main function.
 
 ## UI
+The main screen displays the following:
+- Score
+- Current accuracy
+- Words to be typed
 
+This UI is only updated once the user presses a valid key.
+
+At the end of the game loop, an outro screen is displayed, showing its main stats:
+- Correct words
+- WPM
+- CPM
+- Accuracy
 
 ## Game loop
