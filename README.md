@@ -38,3 +38,16 @@ At the end of the game loop, an outro screen is displayed, showing its main stat
 - Accuracy
 
 ## Game loop
+This script serves a frame only when the user presses a valid (alphanumeric) key. Therefore, it is extremely lightweight.
+
+The currently expected letter is always rendered in bold.
+
+Correctly typed letters are rendered in green.
+
+At the end of each word, the user must press the space bar in order to move to the next. 
+All other keys will be disconsidered.
+This prevents the user from accidently pressing the wrong key of the next word, given the flow of the game.
+
+
+
+
