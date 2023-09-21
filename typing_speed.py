@@ -36,17 +36,17 @@ class Results(Enum):
 class TypingSpeed():
     """ Class constants """
 
-    WORDS_FILE_NAME = "eng.txt"
+    WORDS_FILE_NAME = "words.txt"
     WORDS_COUNT     = 10
     CLEAR_COMMAND   = "cls" if os.name == "nt" else "clear"
 
-    def __init__(self, file_name: str = "eng.txt"):
+    def __init__(self, file_name: str = "words.txt"):
 
         if file_name != TypingSpeed.WORDS_FILE_NAME: TypingSpeed.WORDS_FILE_NAME = file_name
 
         # Parsing the words
         try:
-            self.words_list = self.read_words_from_file(TypingSpeed.WORDS_FILE_NAME)
+            self.words_list = read_words_from_file(TypingSpeed.WORDS_FILE_NAME)
         except FileNotFoundError as e:
             sys.exit(f"File '{WORDS_FILE_NAME}' not found") 
     
@@ -115,22 +115,6 @@ class TypingSpeed():
             self.letter_index  = 0
 
 
-    @staticmethod
-    def read_words_from_file(file_name: str) -> tuple:
-        """ 
-        Returns a tuple containing all the words in a file.
-        File must be inside the same directory as this file's.
-        Raises FileNotFoundError if file is inaccessible.
-        """
-
-        file_path = os.path.join(os.path.dirname(__file__), file_name) 
-
-        with open(file_path) as f:
-            raw_data = f.read()
-
-        return tuple(re.findall("\w+", raw_data))
-
-
     def render_frame(self) -> None:
         """ Renders a single frame """
 
@@ -168,9 +152,9 @@ class TypingSpeed():
         print()
 
 
-    def render_gameover(self, dt: int) -> None:
+    def render_game_over(self, dt: int) -> None:
         """ 
-        Gameover splash screen.
+        Game over splash screen.
         dt is the time it took to complete execution.
         """
 
@@ -209,11 +193,38 @@ class TypingSpeed():
             self.get_and_handle_letter()
 
         t1 = time()
-        self.render_gameover(t1 - t0)
+        self.render_game_over(t1 - t0)
         input()
 
 
+def read_words_from_file(file_name: str) -> tuple:
+    """ 
+    Returns a tuple containing all the words in a file.
+    File must be inside the same directory as this file's.
+    Raises FileNotFoundError if file is inaccessible.
+    """
+
+    file_path = os.path.join(os.path.dirname(__file__), file_name) 
+
+    with open(file_path) as f:
+        raw_data = f.read()
+
+    return tuple(re.findall("\w+", raw_data))
+
+def count_words(words: tuple) -> int:
+    return len(words)
+
+
+def get_chosen_words(game_object: TypingSpeed) -> tuple:
+    return tuple(item["word"] for item in game_object.words)
+
+
+def main():
+    """ To satisfy CS50P requirements :( """
+
+    game = TypingSpeed("words.txt")
+    game.run()
+
 
 if __name__ == '__main__':
-    game = TypingSpeed("eng.txt")
-    game.run()
+    main()
