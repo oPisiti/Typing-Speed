@@ -59,5 +59,6 @@ This core of this script is a class called "TypingSpeed".
 I have a preference for OOP as it provides great encapsulation.
 I find it creates a more readable and organized code. 
 This is specially in python, which is quite flexible and relies heavily on conventions.
-Therefore, it is easy to mistakenly use a wrong and simmilarly named function, which will raise exceptions
+Therefore, it is easy to mistakenly use a wrong and simmilarly named function, which will raise exceptions.
 
+Having said that, I realize bare functions would have been suffice for this project and the use of classes introduced some boilerplate to the code.
