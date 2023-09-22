@@ -44,6 +44,8 @@ The currently expected letter is always rendered in bold.
 
 Correctly typed letters are rendered in green.
 
+Unattempted letters are rendered in white.
+
 At the end of each word, the player must press the space bar in order to move to the next. 
 All other keys will be disconsidered.
 This prevents the player from accidently pressing the wrong key of the next word, given the flow of the game.
@@ -51,4 +53,11 @@ This prevents the player from accidently pressing the wrong key of the next word
 When the player misses a letter in the middle of a word, they are moved back to the start of such word.
 Therefore, for a word to be accepted, it must be correctly typed from start to finish.
 
+## Design
+This core of this script is a class called "TypingSpeed". 
+
+I have a preference for OOP as it provides great encapsulation.
+I find it creates a more readable and organized code. 
+This is specially in python, which is quite flexible and relies heavily on conventions.
+Therefore, it is easy to mistakenly use a wrong and simmilarly named function, which will raise exceptions
 
