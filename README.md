@@ -1,6 +1,6 @@
 # Typing-Speed
 
-#### Video Demo:  <URL HERE>
+#### Video Demo: https://youtu.be/2bvBXUV09f8
 #### Description:
 A command line typing speed test.
 
